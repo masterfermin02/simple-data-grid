@@ -1,6 +1,6 @@
 <?php
 
-namespace VendorName\Skeleton\Tests;
+namespace Masterfermin02\SimpleDataGrid\Tests;
 
 use PHPUnit\Framework\TestCase;
 

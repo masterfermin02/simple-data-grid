@@ -1,16 +1,16 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "masterfermin02/simple-data-grid",
+    "description": "This is my package simple-data-grid",
     "keywords": [
-        ":vendor_name",
-        ":package_slug"
+        "masterfermin02",
+        "simple-data-grid"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/masterfermin02/simple-data-grid",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Fermin",
+            "email": "masterfermin02@gmail.com",
             "role": "Developer"
         }
     ],
@@ -23,12 +23,12 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src"
+            "Masterfermin02\\SimpleDataGrid\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "Masterfermin02\\SimpleDataGrid\\Tests\\": "tests"
         }
     },
     "scripts": {
