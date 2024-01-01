@@ -19,7 +19,7 @@ composer require masterfermin02/simple-data-grid
 Here's a basic example of how to use the Simple Data Grid:
 
 ```php
-use Masterfermin02\SimpleDataGrid\Component\Table;
+use Masterfermin02\SimpleDataGrid\SimpleGrid;
 
 $headers = ['Name', 'Email', 'Phone'];
 $rows = [
@@ -27,9 +27,7 @@ $rows = [
     ['Jane Doe', 'jane@example.com', '098-765-4321'],
 ];
 
-$table = new Table($headers, $rows, 'my-custom-class', ['id' => 'myTable']);
-
-echo $table->render();
+echo SimpleGrid::fromArray($headers, $rows)->render();
 ```
 
 This will generate an HTML table with the specified headers, rows, CSS class, and table properties.
