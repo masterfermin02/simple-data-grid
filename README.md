@@ -1,4 +1,3 @@
-```markdown
 # Simple Data Grid
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/masterfermin02/simple-data-grid.svg?style=flat-square)](https://packagist.org/packages/masterfermin02/simple-data-grid)
