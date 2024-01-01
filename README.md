@@ -1,5 +1,3 @@
-Sure, here's a basic `README.md` for your Simple Data Grid package:
-
 ```markdown
 # Simple Data Grid
 
