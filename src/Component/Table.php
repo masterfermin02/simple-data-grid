@@ -14,13 +14,13 @@ class Table implements Component
     {
         $props = implode(' ', array_map(fn($key, $value) => "$key=\"$value\"", array_keys($this->props), $this->props));
         return "<table class=\"min-w-full divide-y divide-gray-200 {$this->class}\" $props>
-            <thead>
+            <thead class='bg-gray-10'>
                 <tr>
-                    ". implode("", array_map(fn($header) => "<th>$header</th>", $this->headers)) . "
+                    ". implode("", array_map(fn($header) => "<th class='px-6 py-5 text-left text-20 font-medium text-gray-400 uppercase rounded-sm tracking-wider'>$header</th>", $this->headers)) . "
                 </tr>
             </thead>
-            <tbody>
-                " . implode("", array_map(fn($row) => "<tr>" . implode("", array_map(fn($cell) => "<td>$cell</td>", $row)) . "</tr>", $this->rows)) . "
+            <tbody class='bg-white divide-y divide-gray-200'>
+                " . implode("", array_map(fn($row) => "<tr>" . implode("", array_map(fn($cell) => "<td class='px-6 py-10 whitespace-nowrap'>$cell</td>", $row)) . "</tr>", $this->rows)) . "
             </tbody>
 </table>
 ";
