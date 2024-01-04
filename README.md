@@ -63,6 +63,38 @@ $grid = SimpleGrid::fromDatabase(
 echo $grid->render();
 ```
 
+## Add pagination
+
+```php
+<?php
+        $grid = SimpleGrid::fromArray(
+            header: ['id', 'name', 'email'],
+            rows: [
+                [1, 'John Doe', 'josh@estemail.com'],
+                [2, 'John Doe2', 'josh2@estemail.com'],
+                [3, 'John Doe3', 'josh3@estemail.com'],
+                [4, 'John Doe4', 'josh4@estemail.com'],
+                [1, 'John Doe', 'josh@estemail.com'],
+                [2, 'John Doe2', 'josh2@estemail.com'],
+                [3, 'John Doe3', 'josh3@estemail.com'],
+                [4, 'John Doe4', 'josh4@estemail.com'],
+            ],
+        )
+            ->itemPerPage(3)
+            ->currentPage(
+                    $_GET['page'] ?? 1
+            );
+
+    echo $grid->render();
+    echo (new PaginatorNav(
+        totalPages: $grid->table->paginator->getTotalPages(),
+        currentPage: $grid->table->paginator->currentPage,
+        itemsPerPage: $grid->table->paginator->itemsPerPage,
+        nextPage: $grid->table->paginator->getNextPage(),
+        previousPage: $grid->table->paginator->getPreviousPage(),
+    ))->render();
+```
+
 In this example, `SimpleGrid::fromDatabase` is used to create a new `SimpleGrid` instance connected to a MySQL database. The `mysqlQuery` method is then used to execute a SELECT query on the `users` table, selecting the `id`, `name`, and `email` columns. The `render` method is finally called to generate the HTML for the data grid.
 
 ## Testing
