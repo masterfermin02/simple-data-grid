@@ -5,7 +5,7 @@ namespace Masterfermin02\SimpleDataGrid\Database;
 class MysqlQueryResult implements QueryResult
 {
     public function __construct(
-        public readonly array $data,
+        public readonly \Iterator $data,
         public readonly int $affectedRows,
         public readonly int $insertId,
         public readonly string $error,
@@ -15,7 +15,7 @@ class MysqlQueryResult implements QueryResult
     }
 
     public static function create(
-        array $data,
+        \Iterator $data,
         int $affectedRows = 0,
         int $insertId = 0,
         string $error = "",
@@ -24,18 +24,6 @@ class MysqlQueryResult implements QueryResult
     ): self
     {
         return new self($data, $affectedRows, $insertId, $error, $errorNo, $debugLog);
-    }
-
-    public function addRow(array $row): self
-    {
-        return new self(
-            array_merge($this->data, [$row]),
-            $this->affectedRows,
-            $this->insertId,
-            $this->error,
-            $this->errorNo,
-            $this->debugLog,
-        );
     }
 
     public function addNumRows(int $numRows): self
@@ -50,13 +38,18 @@ class MysqlQueryResult implements QueryResult
         );
     }
 
-    public function getData(): array
+    public function getAffectedRows(): int
+    {
+        return $this->affectedRows;
+    }
+
+    public function getIterator(): \Iterator
     {
         return $this->data;
     }
 
-    public function getAffectedRows(): int
+    public function getData(): array
     {
-        return $this->affectedRows;
+        return iterator_to_array($this->data);
     }
 }

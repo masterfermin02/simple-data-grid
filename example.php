@@ -22,9 +22,14 @@ use Masterfermin02\SimpleDataGrid\SimpleGrid;
             rows: [
                 [1, 'John Doe', 'josh@estemail.com'],
                 [2, 'John Doe2', 'josh2@estemail.com'],
-                [3, 'John Doe2', 'josh3@estemail.com'],
+                [3, 'John Doe3', 'josh3@estemail.com'],
+                [4, 'John Doe4', 'josh4@estemail.com'],
             ],
         )
+            ->itemPerPage(2)
+            ->currentPage(
+                    $_GET['page'] ?? 1
+            )
             ->render();
     ?>
     <?php

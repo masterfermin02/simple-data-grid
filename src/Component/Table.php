@@ -2,16 +2,19 @@
 
 namespace Masterfermin02\SimpleDataGrid\Component;
 
+use Masterfermin02\SimpleDataGrid\Paginator\Paginator;
+
 class Table implements Component
 {
     public function __construct(
         public readonly array $headers,
-        public readonly array $rows,
+        public readonly Paginator $paginator,
         public readonly string $class = '',
         public readonly array $props = [],
     ) {}
     public function render(): string
     {
+        $rows = $this->paginator->getItemsForCurrentPage();
         $props = implode(' ', array_map(fn($key, $value) => "$key=\"$value\"", array_keys($this->props), $this->props));
         return "<table class=\"min-w-full divide-y divide-gray-200 {$this->class}\" $props>
             <thead class='bg-gray-10'>
@@ -20,7 +23,7 @@ class Table implements Component
                 </tr>
             </thead>
             <tbody class='bg-white divide-y divide-gray-200'>
-                " . implode("", array_map(fn($row) => "<tr>" . implode("", array_map(fn($cell) => "<td class='px-6 py-10 whitespace-nowrap'>$cell</td>", $row)) . "</tr>", $this->rows)) . "
+                " . implode("", array_map(fn($row) => "<tr>" . implode("", array_map(fn($cell) => "<td class='px-6 py-10 whitespace-nowrap'>$cell</td>", $row)) . "</tr>", $rows)) . "
             </tbody>
 </table>
 ";

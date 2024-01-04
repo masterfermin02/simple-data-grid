@@ -9,9 +9,12 @@ use Masterfermin02\SimpleDataGrid\Database\Query;
 use Masterfermin02\SimpleDataGrid\Enums\DbTypes;
 use Masterfermin02\SimpleDataGrid\Exceptions\MysqliConnectException;
 use Masterfermin02\SimpleDataGrid\Factories\DbConnectionFactory;
+use Masterfermin02\SimpleDataGrid\Factories\PaginatorFactory;
 
 class SimpleGrid
 {
+    public const DEFAULT_PAGE = 1;
+
     public function __construct(
         public readonly Table $table,
         public readonly ?DbConnection $dbConnection = null,
@@ -25,10 +28,10 @@ class SimpleGrid
         array $rows,
     ): self
     {
-        return new self(
+        return new static(
             new Table(
                 headers: $header,
-                rows: $rows,
+                paginator: PaginatorFactory::createFromArray($rows),
             )
         );
     }
@@ -38,11 +41,13 @@ class SimpleGrid
         array $rows,
     ): self
     {
-        return new self(
+        return new static(
             new Table(
                 headers: $header,
-                rows: $rows,
-            )
+                paginator: PaginatorFactory::createFromArray(
+                   items: $rows,
+                ),
+            ),
         );
     }
 
@@ -59,11 +64,13 @@ class SimpleGrid
     ): self
     {
         return new static(
-            new Table(
+            table: new Table(
                 headers: [],
-                rows: [],
+                paginator:  PaginatorFactory::createFromIterator(
+                    items: new EmptyIterator(),
+                ),
             ),
-            (new DbConnectionFactory(
+            dbConnection: (new DbConnectionFactory(
                 server: $server,
                 username: $username,
                 password: $password,
@@ -78,12 +85,37 @@ class SimpleGrid
     {
         $queryResult = $this->dbConnection->query($query);
 
-        return new self(
-            new Table(
+        return new static(
+            table: new Table(
                 headers: $query->columns,
-                rows: $queryResult->getData(),
+                paginator: PaginatorFactory::createFromIterator(
+                    items: $queryResult->getIterator(),
+                ),
             ),
-            $this->dbConnection
+            dbConnection: $this->dbConnection,
+        );
+    }
+
+    public function itemPerPage(
+        int $itemPerPage
+    ): self {
+        return new static(
+            new Table(
+                headers: $this->table->headers,
+                paginator: $this->table->paginator->addItemPerPage($itemPerPage)
+            ),
+            dbConnection: $this->dbConnection,
+        );
+    }
+
+    public function currentPage(int $currentPage): self
+    {
+        return new static(
+            new Table(
+                headers: $this->table->headers,
+                paginator: $this->table->paginator->addCurrentPage($currentPage)
+            ),
+            dbConnection: $this->dbConnection,
         );
     }
 

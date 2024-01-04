@@ -48,16 +48,12 @@ class MysqlDb implements DbConnection
     public function query(Query $sql): QueryResult
     {
         if ($result = $this->link->query($sql->toString())) {
-            $queryResult = MysqlQueryResult::create([]);
             if ($sql->isSelect()) {
-                $queryResult = $queryResult->addNumRows($result->num_rows);
-                while ($row = $result->fetch_assoc()) {
-                    $queryResult = $queryResult->addRow($row);
-                }
-                $result->close();
+                return MysqlQueryResult::create(
+                    $result->getIterator(),
+                    $result->num_rows
+                );
             }
-
-            return $queryResult;
         }
 
         throw new \Exception($this->link->error);
