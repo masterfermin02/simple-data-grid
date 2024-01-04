@@ -3,6 +3,7 @@
 require __DIR__ . '/vendor/autoload.php';
 
 use Masterfermin02\SimpleDataGrid\SimpleGrid;
+use Masterfermin02\SimpleDataGrid\Component\PaginatorNav;
 ?>
 <!doctype html>
 <html>
@@ -17,23 +18,33 @@ use Masterfermin02\SimpleDataGrid\SimpleGrid;
 </h1>
 <div>
     <?php
-        echo SimpleGrid::fromArray(
+        $grid = SimpleGrid::fromArray(
             header: ['id', 'name', 'email'],
             rows: [
                 [1, 'John Doe', 'josh@estemail.com'],
                 [2, 'John Doe2', 'josh2@estemail.com'],
                 [3, 'John Doe3', 'josh3@estemail.com'],
                 [4, 'John Doe4', 'josh4@estemail.com'],
+                [1, 'John Doe', 'josh@estemail.com'],
+                [2, 'John Doe2', 'josh2@estemail.com'],
+                [3, 'John Doe3', 'josh3@estemail.com'],
+                [4, 'John Doe4', 'josh4@estemail.com'],
             ],
         )
-            ->itemPerPage(2)
+            ->itemPerPage(3)
             ->currentPage(
                     $_GET['page'] ?? 1
-            )
-            ->render();
-    ?>
-    <?php
-    echo SimpleGrid::fromDatabase(
+            );
+
+    echo $grid->render();
+    echo (new PaginatorNav(
+        totalPages: $grid->table->paginator->getTotalPages(),
+        currentPage: $grid->table->paginator->currentPage,
+        itemsPerPage: $grid->table->paginator->itemsPerPage,
+        nextPage: $grid->table->paginator->getNextPage(),
+        previousPage: $grid->table->paginator->getPreviousPage(),
+    ))->render();
+    /*echo SimpleGrid::fromDatabase(
         server: '127.0.0.1',
         username: 'myuser',
         password: 'mypassword',
@@ -46,7 +57,7 @@ use Masterfermin02\SimpleDataGrid\SimpleGrid;
                 columns: ['id', 'name', 'email'],
             )
         )
-        ->render();
+        ->render();*/
     ?>
 </div>
 </body>
