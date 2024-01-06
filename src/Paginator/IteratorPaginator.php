@@ -56,4 +56,9 @@ class IteratorPaginator implements Paginator
             currentPage: $currentPage,
         );
     }
+
+    public function getItemsPerPage(): int
+    {
+        return $this->itemsPerPage;
+    }
 }

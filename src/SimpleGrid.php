@@ -10,8 +10,9 @@ use Masterfermin02\SimpleDataGrid\Enums\DbTypes;
 use Masterfermin02\SimpleDataGrid\Exceptions\MysqliConnectException;
 use Masterfermin02\SimpleDataGrid\Factories\DbConnectionFactory;
 use Masterfermin02\SimpleDataGrid\Factories\PaginatorFactory;
+use Masterfermin02\SimpleDataGrid\Paginator\PaginatorNavInterface;
 
-class SimpleGrid
+class SimpleGrid implements PaginatorNavInterface
 {
     public const DEFAULT_PAGE = 1;
 
@@ -122,5 +123,30 @@ class SimpleGrid
     public function render(): string
     {
         return $this->table->render();
+    }
+
+    public function getTotalPages(): int
+    {
+        return $this->table->paginator->getTotalPages();
+    }
+
+    public function getCurrentPage(): int
+    {
+        return $this->table->paginator->getCurrentPage();
+    }
+
+    public function getNextPage(): int
+    {
+        return $this->table->paginator->getNextPage();
+    }
+
+    public function getPreviousPage(): int
+    {
+        return $this->table->paginator->getPreviousPage();
+    }
+
+    public function getItemsPerPage(): int
+    {
+        return $this->table->paginator->getItemsPerPage();
     }
 }
