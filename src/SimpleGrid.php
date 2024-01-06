@@ -52,6 +52,21 @@ class SimpleGrid implements PaginatorNavInterface
         );
     }
 
+    public static function fromIterator(
+        array $header,
+        \Iterator $rows,
+    ): self
+    {
+        return new static(
+            new Table(
+                headers: $header,
+                paginator: PaginatorFactory::createFromIterator(
+                    items: $rows
+                ),
+            ),
+        );
+    }
+
     /**
      * @throws MysqliConnectException
      */

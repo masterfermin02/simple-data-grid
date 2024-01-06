@@ -93,6 +93,63 @@ echo $grid->render();
 
 In this example, `SimpleGrid::fromDatabase` is used to create a new `SimpleGrid` instance connected to a MySQL database. The `mysqlQuery` method is then used to execute a SELECT query on the `users` table, selecting the `id`, `name`, and `email` columns. The `render` method is finally called to generate the HTML for the data grid.
 
+## Using laravel model
+    
+```php
+<?php
+    $grid = SimpleGrid::fromArray(
+            header: ['id', 'name', 'email'],
+            rows: User::select('id','name', 'email')->get(),
+        )
+            ->itemPerPage(3)
+            ->currentPage(
+                    $_GET['page'] ?? 1
+            );
+
+    echo $grid->render();
+    echo (new PaginatorNav(
+        $grid
+    ))->render();   
+```
+
+## Using laravel query builder
+
+```php
+<?php
+    $grid = SimpleGrid::fromArray(
+            header: ['id', 'name', 'email'],
+            rows: DB::table('users')->select('id','name', 'email')->get(),
+        )
+            ->itemPerPage(3)
+            ->currentPage(
+                    $_GET['page'] ?? 1
+            );
+
+    echo $grid->render();
+    echo (new PaginatorNav(
+        $grid
+    ))->render();   
+```
+
+## Using laravel eloquent cursor
+
+```php
+<?php
+    $grid = SimpleGrid::fromIterator(
+            header: ['id', 'name', 'email'],
+            rows: User::select('id','name', 'email')->cursor(),
+        )
+            ->itemPerPage(3)
+            ->currentPage(
+                    $_GET['page'] ?? 1
+            );
+
+    echo $grid->render();
+    echo (new PaginatorNav(
+        $grid
+    ))->render();   
+```
+
 ## Testing
 
 ```bash
