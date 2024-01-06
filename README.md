@@ -87,11 +87,7 @@ echo $grid->render();
 
     echo $grid->render();
     echo (new PaginatorNav(
-        totalPages: $grid->table->paginator->getTotalPages(),
-        currentPage: $grid->table->paginator->currentPage,
-        itemsPerPage: $grid->table->paginator->itemsPerPage,
-        nextPage: $grid->table->paginator->getNextPage(),
-        previousPage: $grid->table->paginator->getPreviousPage(),
+        $grid
     ))->render();
 ```
 
